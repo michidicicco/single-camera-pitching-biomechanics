@@ -4,6 +4,6 @@ Contributions that improve reproducibility, documentation, testing, portability,
 
 Changes should preserve the distinction between measurement quality, relative mechanical characterization, unsupervised movement-pattern analysis, and clinical or injury-related claims.
 
-Changes to validated processing parameters, feature definitions, event localization, or model selection should include a clear rationale, affected outputs, regression or validation results, and updated documentation.
+Changes to study processing parameters, feature definitions, event localization, or model-selection rules should include a clear rationale, affected outputs, appropriate regression or event-agreement checks, and updated documentation.
 
 Do not submit raw participant videos, identifiable images, private metadata, consent materials, or other restricted study data in issues, pull requests, or repository files.

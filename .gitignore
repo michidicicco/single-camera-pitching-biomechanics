@@ -1,0 +1,30 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+.env
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Human-participant source data
+videos/
+metadata/*.csv
+
+# Participant-level outputs
+outputs/
+results/private/
+results/participant_level/
+
+# Third-party model binaries
+models/*.task
+
+# Local logs / scratch
+*.log
+tmp/
+scratch/
+.ipynb_checkpoints/

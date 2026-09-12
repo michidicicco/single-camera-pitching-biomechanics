@@ -1,0 +1,4 @@
+video_file,pitcher_id,pitch_id,throwing_side,camera_view,height_m
+example_pitcher_01_pitch_01.mp4,example_pitcher_01,pitch_01,right,side,1.82
+example_pitcher_01_pitch_02.mp4,example_pitcher_01,pitch_02,right,side,1.82
+example_pitcher_02_pitch_01.mp4,example_pitcher_02,pitch_01,left,side,1.75

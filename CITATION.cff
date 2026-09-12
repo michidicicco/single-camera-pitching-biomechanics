@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the repository and the associated publication when available."
+title: "Single-Camera Pitching Biomechanics"
+type: software
+authors:
+  - family-names: "Di Cicco"
+    given-names: "Michelle Liete"
+repository-code: "https://github.com/michidicicco/single-camera-pitching-biomechanics"
+license: MIT
+keywords:
+  - biomechanics
+  - baseball
+  - pitching
+  - computer vision
+  - pose estimation
+  - kinematics
+  - unsupervised learning
+  - PCA
+  - K-means

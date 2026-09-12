@@ -55,6 +55,77 @@ Mechanical profiles          Robustness analyses
 
 The relative mechanical and clustering pathways are generated independently and are merged only after both analyses are complete.
 
+## Quick Start
+
+Clone the repository and create the study environment:
+
+```bash
+git clone https://github.com/michidicicco/single-camera-pitching-biomechanics.git
+cd single-camera-pitching-biomechanics
+conda env create -f environment.yml
+conda activate pitching-biomechanics
+```
+
+For raw-video processing, create the local folders below. They are intentionally excluded from version control where they may contain participant data or third-party model files.
+
+```text
+videos/
+metadata/
+models/
+```
+
+Use `examples/example_metadata.csv` as the metadata schema and save the working metadata file as:
+
+```text
+metadata/pitch_metadata.csv
+```
+
+Obtain the MediaPipe Pose Landmarker Full model from the official MediaPipe distribution and save it locally as:
+
+```text
+models/pose_landmarker_full.task
+```
+
+Run the raw-video workflow:
+
+```bash
+python scripts/run_pipeline.py
+```
+
+Then construct the primary analysis matrix and run PCA/K-means:
+
+```bash
+python scripts/prepare_analysis_data.py \
+  --input outputs/features/pitch_features_with_relative_mechanics.csv \
+  --output-dir outputs/analysis
+```
+
+Run the cluster robustness analyses:
+
+```bash
+python scripts/cluster_analysis.py \
+  --input outputs/analysis/model_ready.csv \
+  --full-data outputs/features/pitch_features_with_relative_mechanics.csv \
+  --output-dir outputs/robustness
+```
+
+Create relative mechanical profiles and merge the two independent analytical pathways:
+
+```bash
+python scripts/mechanical_profiles.py \
+  --input outputs/features/pitch_features_with_relative_mechanics.csv \
+  --out outputs/features/pitch_features_with_profiles.csv \
+  --summary-out outputs/analysis/mechanical_profile_summary.txt
+
+python scripts/merge_analysis_outputs.py \
+  --profile-file outputs/features/pitch_features_with_profiles.csv \
+  --cluster-file outputs/robustness/cluster_assignments.csv \
+  --out outputs/features/pitch_features_profiles_and_clusters.csv \
+  --summary-out outputs/analysis/profiles_by_cluster_summary.txt
+```
+
+Secondary analyses are documented in [`scripts/README.md`](scripts/README.md). The public repository does not include the human-participant source videos required to reproduce the study dataset itself.
+
 ## Repository Structure
 
 ```text
@@ -97,11 +168,11 @@ run_pipeline.py
 
 See [`scripts/README.md`](scripts/README.md) for the complete script map and analysis order.
 
-## Reproducibility Validation
+## Reproducibility Check
 
-The publication-facing scripts were regression-tested against the archived 156-pitch study outputs. The retained feature set, primary cluster assignments, PCA variance, relative mechanical scores, profile counts, robustness metrics, feature-holdout results, pitcher-adjusted results, and within-pitcher analyses were reproduced. The null/bootstrap implementation was also compared directly against the archived implementation using matched test settings.
+The publication-facing scripts were regression-checked against the archived 156-pitch study outputs. The retained feature set, primary cluster assignments, PCA variance, relative mechanical scores, profile counts, robustness metrics, feature-holdout results, pitcher-adjusted results, and within-pitcher analyses were reproduced. The null/bootstrap implementation was also compared directly against the archived implementation under matched test settings.
 
-See [`docs/reproducibility_validation.md`](docs/reproducibility_validation.md) for details.
+See [`docs/reproducibility_check.md`](docs/reproducibility_check.md) for details.
 
 ## Aggregate Results
 
@@ -136,7 +207,7 @@ All joins between analytical outputs use the verified unique pitch identifier. R
 
 ## Reproducibility
 
-The validated parameter set and software environment are documented in [`config/`](config/) and [`docs/reproducibility.md`](docs/reproducibility.md).
+The study parameter set and software environment are documented in [`config/`](config/) and [`docs/reproducibility.md`](docs/reproducibility.md).
 
 ## Data Availability and Privacy
 

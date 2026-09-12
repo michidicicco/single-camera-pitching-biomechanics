@@ -1,5 +1,5 @@
 {
-  "parameter_set": "validated_after_holdout_event_evaluation",
+  "parameter_set": "frozen_after_holdout_event_evaluation",
   "parameters": {
     "max_interp_gap_ms": 100.0,
     "savgol_window_ms": 200.0,
@@ -13,11 +13,11 @@
   },
   "event_validation_reference": {
     "n_pitches": 25,
-    "ffc_mae_frames": 0.8,
+    "ffc_mae_frames": 0.80,
     "ffc_mae_ms": 23.33,
     "release_mae_frames": 0.72,
-    "release_mae_ms": 24.0,
+    "release_mae_ms": 24.00,
     "ffc_to_release_mae_frames": 1.12,
-    "ffc_to_release_mae_ms": 34.0
+    "ffc_to_release_mae_ms": 34.00
   }
 }

@@ -1,7 +1,12 @@
+# Core numerical and analysis dependencies used by the study.
+# For the closest recreation of the recorded study environment, prefer environment.yml.
 mediapipe==0.10.14
-opencv-python==4.12.0.88
 numpy==1.26.4
 pandas==2.2.2
 scipy==1.13.1
 scikit-learn==1.4.2
-matplotlib==3.10.8
+matplotlib>=3.8,<4
+
+# OpenCV 4.12 was supplied by the study's Anaconda environment. It is not pinned
+# here as opencv-python==4.12.0.88 because that PyPI wheel requires NumPy >=2 on
+# Python 3.12, which conflicts with the recorded NumPy 1.26.4 study environment.

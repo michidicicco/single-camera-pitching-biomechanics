@@ -4,11 +4,11 @@ These templates should be updated with the archived software release and DOI.
 
 ## Thesis — Methods
 
-> The computational analysis pipeline, validated processing parameters, software-environment specifications, and reproducibility documentation are available through the associated public software repository.
+> The computational analysis pipeline, study processing parameters, software-environment specifications, and reproducibility documentation are available through the associated public software repository.
 
 ## Thesis — Code and Data Availability
 
-> Source code, processing parameters, data schemas, example inputs, and reproducibility documentation supporting this thesis are publicly available in the Single-Camera Pitching Biomechanics repository. A citable archived software release will be referenced by DOI when available. Raw participant videos and other potentially identifiable research data are not publicly distributed because of participant privacy and research-ethics restrictions.
+> Source code, processing parameters, data schemas, example inputs, and reproducibility documentation supporting this thesis are publicly available in the *Single-Camera Pitching Biomechanics* repository. The software release associated with the final thesis analysis is archived with a persistent DOI. Raw participant videos and other potentially identifiable research data are not publicly distributed because of participant privacy and research-ethics restrictions.
 
 ## Journal — Methods
 
@@ -16,7 +16,7 @@ These templates should be updated with the archived software release and DOI.
 
 ## Journal — Software and Code Availability
 
-> Source code for the biomechanical processing and analysis pipeline is publicly available through the Single-Camera Pitching Biomechanics repository. The software release associated with this article will be archived with a persistent DOI and distributed under the MIT License.
+> Source code for the biomechanical processing and analysis pipeline is publicly available through the *Single-Camera Pitching Biomechanics* repository. The software release associated with this article is archived with a persistent DOI and distributed under the MIT License.
 
 ## Journal — Data Availability
 

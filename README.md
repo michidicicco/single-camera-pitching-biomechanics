@@ -1,5 +1,7 @@
 # Single-Camera Pitching Biomechanics
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22719671.svg)](https://doi.org/10.5281/zenodo.22719671)
+
 Open-source research software for single-camera 2D baseball pitching biomechanics.
 
 This repository supports a field-deployable workflow for frame-level pose estimation, automated front-foot contact (FFC) and ball-release localization, trajectory preprocessing, measurement quality control, pitch-level kinematic feature extraction, pooled and within-pitcher relative mechanical characterization, PCA, K-means clustering, and robustness analyses.
@@ -223,7 +225,13 @@ The MediaPipe Pose Landmarker model file is not bundled here. Users should obtai
 
 ## Citation
 
-A machine-readable citation file is provided in [`CITATION.cff`](CITATION.cff). After the first archived software release receives a DOI, the DOI and associated thesis/journal publication should be added as the preferred citation.
+The archived software release is available at DOI: **10.5281/zenodo.22719671**.
+
+Recommended citation:
+
+> Di Cicco, M. L. (2026). *Single-Camera Pitching Biomechanics* (Version 1.0.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.22719671
+
+A machine-readable citation file is provided in [`CITATION.cff`](CITATION.cff).
 
 ## License
 

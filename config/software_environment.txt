@@ -1,9 +1,18 @@
+Study computational environment
+================================
 Operating system: Windows 11
 Python: 3.12.3
 MediaPipe: 0.10.14
-OpenCV: 4.12.0.88
+OpenCV: 4.12
 NumPy: 1.26.4
 pandas: 2.2.2
 SciPy: 1.13.1
 scikit-learn: 1.4.2
-Matplotlib: 3.10.8
+Matplotlib: plotting dependency; exact study patch version was not recovered from the supplied archive
+
+Notes
+-----
+The study used an Anaconda-based environment. OpenCV 4.12 is therefore specified
+through conda-forge in environment.yml rather than through the opencv-python
+4.12.0.88 PyPI wheel, whose NumPy requirements conflict with the recorded
+NumPy 1.26.4 environment on Python 3.12.

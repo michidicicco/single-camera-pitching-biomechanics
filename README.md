@@ -14,7 +14,7 @@ This software is intended for research-oriented biomechanical characterization. 
 
 The associated study dataset contained 8 pitchers and 156 pitch observations. Measurement QC classified 122 observations as pass and 34 for review; no observations were excluded from the primary analysis. The primary multivariable matrix retained 32 biomechanical features.
 
-K-means clustering was performed on the 32 standardized retained biomechanical features, not on PCA scores. Candidate values of `k = 2` through `k = 6` were evaluated. The selected solution used `k = 5` with a silhouette coefficient of approximately `0.261`.
+K-means clustering was performed on the 32 standardized retained biomechanical features, not on PCA scores. Candidate values of `k = 2` through `k = 6` were evaluated. The selected solution used `k = 5` with silhouette `0.2607199563`.
 
 These values describe the associated study and should not be interpreted as universal population parameters.
 
@@ -63,7 +63,6 @@ The relative mechanical and clustering pathways are generated independently and 
 ├── LICENSE
 ├── CITATION.cff
 ├── CONTRIBUTING.md
-├── .gitignore
 ├── requirements.txt
 ├── environment.yml
 ├── config/
@@ -74,9 +73,9 @@ The relative mechanical and clustering pathways are generated independently and 
 └── figures/
 ```
 
-## Public Script Names
+## Analysis Code
 
-The publication-facing codebase uses stable descriptive filenames rather than development-version suffixes.
+The publication-facing code uses stable descriptive filenames rather than development-version suffixes. Core scripts include:
 
 ```text
 extract_pose.py
@@ -87,18 +86,26 @@ prepare_analysis_data.py
 cluster_analysis.py
 mechanical_profiles.py
 merge_analysis_outputs.py
-manual_event_annotator.py
-manual_event_annotator_holdout.py
-validate_events.py
 characterize_clusters.py
 feature_holdout_analysis.py
 pitcher_adjusted_analysis.py
 within_pitcher_clustering.py
 null_bootstrap_analysis.py
+validate_events.py
 run_pipeline.py
 ```
 
-The canonical research scripts should be migrated into these names without changing the validated computations. Before the first public software release, the renamed code should be regression-tested against the archived study outputs.
+See [`scripts/README.md`](scripts/README.md) for the complete script map and analysis order.
+
+## Reproducibility Validation
+
+The publication-facing scripts were regression-tested against the archived 156-pitch study outputs. The retained feature set, primary cluster assignments, PCA variance, relative mechanical scores, profile counts, robustness metrics, feature-holdout results, pitcher-adjusted results, and within-pitcher analyses were reproduced. The null/bootstrap implementation was also compared directly against the archived implementation using matched test settings.
+
+See [`docs/reproducibility_validation.md`](docs/reproducibility_validation.md) for details.
+
+## Aggregate Results
+
+Publication-safe aggregate study outputs are provided in [`results/`](results/). Participant-level cluster assignments and pitch-level feature tables are not publicly distributed.
 
 ## Video Acquisition
 
@@ -125,7 +132,7 @@ The canonical pitch identifier is:
 unique_pitch_id = pitcher_id + "_" + pitch_id
 ```
 
-All joins between analytical outputs should use the verified unique pitch identifier. Row-order merging is not permitted.
+All joins between analytical outputs use the verified unique pitch identifier. Row-order merging is not permitted.
 
 ## Reproducibility
 
@@ -133,7 +140,7 @@ The validated parameter set and software environment are documented in [`config/
 
 ## Data Availability and Privacy
 
-Raw participant videos are **not** distributed in this repository because video of human participants may be identifiable. This repository is designed to distribute source code, processing parameters, software-environment information, data schemas, synthetic/example inputs, publication-safe aggregate results, and reproducibility documentation.
+Raw participant videos are **not** distributed in this repository because video of human participants may be identifiable. This repository distributes source code, processing parameters, software-environment information, data schemas, synthetic/example inputs, publication-safe aggregate results, and reproducibility documentation.
 
 Participant-level research data should only be released when permitted by the study consent, IRB/ethics requirements, institutional policy, and applicable privacy constraints.
 

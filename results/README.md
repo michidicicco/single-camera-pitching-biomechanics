@@ -1,3 +1,7 @@
-# Results
+# Aggregate Study Results
 
-Only publication-safe aggregate results should be committed here. Participant-level outputs, raw event annotations, identifiable filenames, or restricted study data should remain outside the public repository unless public release is explicitly permitted.
+This folder contains publication-safe aggregate outputs from the associated 156-pitch study analysis.
+
+Participant-level cluster assignments, pitch-level feature tables, raw video, manual event annotations, and identifiable filenames are intentionally not distributed here.
+
+Values describe the study cohort and are not population norms or clinical thresholds.

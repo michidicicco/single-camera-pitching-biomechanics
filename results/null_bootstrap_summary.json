@@ -1,0 +1,18 @@
+{
+  "analysis": "secondary cluster null-model and pitcher-stratified bootstrap",
+  "n_pitches": 156,
+  "n_pitchers": 8,
+  "model_features": 32,
+  "observed_k": 5,
+  "observed_silhouette_recomputed": 0.26071995633325545,
+  "null_permutations": 2000,
+  "null_mean_silhouette": 0.20309452735661426,
+  "null_95th_percentile_silhouette": 0.21152098763392133,
+  "null_empirical_p": 0.0004997501249375312,
+  "bootstrap_resamples": 2000,
+  "bootstrap_mean_silhouette": 0.2722619757708226,
+  "bootstrap_95pct_percentile_interval": [0.23989724073259108, 0.2990671265405111],
+  "reselect_k_in_each_resample": false,
+  "n_init_per_resample": 50,
+  "interpretation": "The null preserves within-pitcher univariate feature distributions while disrupting multivariable coordination. The comparison tests whether the observed geometric structure exceeds that expected after disrupting feature relationships; it does not establish clinical validity."
+}

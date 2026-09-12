@@ -1,0 +1,17 @@
+{
+  "analysis": "relative-mechanics feature-holdout clustering",
+  "n_pitches": 156,
+  "primary_model_features_available": 32,
+  "relative_mechanics_features_removed_from_cluster_input": {
+    "max_throwing_elbow_angular_velocity": "elbow_ang_vel_max_ffc_to_release",
+    "max_normalized_relative_wrist_speed": "wrist_speed_max_ffc_to_release",
+    "max_projected_hip_shoulder_separation_velocity": "hip_shoulder_sep_vel_max_ffc_to_release",
+    "max_trunk_tilt_velocity": "trunk_tilt_vel_max_ffc_to_release",
+    "trunk_tilt_at_release": "trunk_tilt_deg_at_release"
+  },
+  "remaining_cluster_features": 27,
+  "selected_k": 2,
+  "silhouette": 0.27194384865690463,
+  "ari_vs_primary_cluster_solution": 0.2179695310309831,
+  "interpretation": "Clusters were reconstructed after excluding the five variables used in the relative mechanical score. Post hoc differences in held-out variables characterize biomechanical concordance and are not external clinical validation."
+}

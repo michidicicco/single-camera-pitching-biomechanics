@@ -1,0 +1,12 @@
+{
+  "n_pitches": 156,
+  "n_features": 32,
+  "selected_k": 5,
+  "silhouette": 0.2540620403788976,
+  "initialization_stability_mean_pairwise_ari": 0.8887180234976931,
+  "initialization_stability_min_pairwise_ari": 0.5076298013919885,
+  "leave_one_pitcher_out_mean_ari": 0.9560888578126979,
+  "pitcher_balanced_resampling_mean_ari": 0.8397765681126643,
+  "pitcher_balanced_resampling_min_ari": 0.4142786620960587,
+  "note": "Initialization stability characterizes optimization sensitivity. Participant-omission and balanced-resampling analyses characterize sensitivity to participant composition."
+}

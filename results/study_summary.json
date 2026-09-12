@@ -1,0 +1,13 @@
+{
+  "n_pitches": 156,
+  "n_pitchers": 8,
+  "qc_eligible_pitches": 156,
+  "retained_biomechanical_features": 32,
+  "candidate_k_range": [2, 6],
+  "selected_k": 5,
+  "primary_silhouette": 0.26071995633325545,
+  "primary_refit_inertia": 2546.0498591673495,
+  "primary_refit_iterations": 5,
+  "cluster_counts": {"0": 21, "1": 50, "2": 32, "3": 15, "4": 38},
+  "relative_mechanical_profile_counts": {"lower": 48, "moderate": 58, "higher": 50}
+}

@@ -1,0 +1,4 @@
+event,n,mean_absolute_frame_error,mean_absolute_error_ms
+front_foot_contact,25,0.8,23.33
+ball_release,25,0.72,24.0
+ffc_to_release_duration,25,1.12,34.0

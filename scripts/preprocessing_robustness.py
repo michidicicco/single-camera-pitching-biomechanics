@@ -40,6 +40,14 @@ DEFAULT_POSE_DIR = PROJECT_ROOT / "outputs" / "pose"
 DEFAULT_METADATA = PROJECT_ROOT / "metadata" / "pitch_metadata.csv"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "outputs" / "preprocessing_robustness"
 
+ANALYSIS_FILE_ALIASES = {
+    "analysis_summary.json": ["analysis_summary.json", "cleaned_analysis_summary.json"],
+    "pca_explained_variance.csv": ["pca_explained_variance.csv", "cleaned_pca_explained_variance.csv"],
+    "pca_scores.csv": ["pca_scores.csv", "cleaned_pca_scores.csv"],
+    "cluster_assignments.csv": ["cluster_assignments.csv", "cleaned_cluster_assignments.csv"],
+    "model_ready.csv": ["model_ready.csv", "pitch_features_model_ready_cleaned.csv"],
+}
+
 EVENT_DEFAULTS = {
     "max_interp_gap_ms": 100.0,
     "event_savgol_window_ms": 100.0,
@@ -176,6 +184,17 @@ def build_condition(
     }
 
 
+def resolve_analysis_file(analysis_dir: Path, logical_name: str) -> Path:
+    candidates = ANALYSIS_FILE_ALIASES.get(logical_name, [logical_name])
+    for name in candidates:
+        path = analysis_dir / name
+        if path.exists():
+            return path
+    raise FileNotFoundError(
+        f"Could not find {logical_name} in {analysis_dir}. Tried: " + ", ".join(candidates)
+    )
+
+
 def read_indexed_csv(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path)
     if "unique_pitch_id" not in df.columns:
@@ -233,8 +252,8 @@ def feature_agreement(reference: pd.DataFrame, test: pd.DataFrame) -> pd.DataFra
 
 
 def pca_procrustes(reference_analysis: Path, test_analysis: Path, n_components: int = 5) -> dict:
-    ref = read_indexed_csv(reference_analysis / "pca_scores.csv")
-    tst = read_indexed_csv(test_analysis / "pca_scores.csv")
+    ref = read_indexed_csv(resolve_analysis_file(reference_analysis, "pca_scores.csv"))
+    tst = read_indexed_csv(resolve_analysis_file(test_analysis, "pca_scores.csv"))
     common = ref.index.intersection(tst.index)
     pcs = [f"PC{i}" for i in range(1, n_components + 1)]
     pcs = [c for c in pcs if c in ref.columns and c in tst.columns]
@@ -251,8 +270,8 @@ def pca_procrustes(reference_analysis: Path, test_analysis: Path, n_components: 
 
 
 def cluster_agreement(reference_analysis: Path, test_analysis: Path) -> dict:
-    ref = read_indexed_csv(reference_analysis / "cluster_assignments.csv")
-    tst = read_indexed_csv(test_analysis / "cluster_assignments.csv")
+    ref = read_indexed_csv(resolve_analysis_file(reference_analysis, "cluster_assignments.csv"))
+    tst = read_indexed_csv(resolve_analysis_file(test_analysis, "cluster_assignments.csv"))
     common = ref.index.intersection(tst.index)
     if len(common) < 2:
         ari = np.nan
@@ -262,8 +281,8 @@ def cluster_agreement(reference_analysis: Path, test_analysis: Path) -> dict:
 
 
 def condition_summary(window_ms: float, analysis_dir: Path) -> dict:
-    summary = json.loads((analysis_dir / "analysis_summary.json").read_text(encoding="utf-8"))
-    pca = pd.read_csv(analysis_dir / "pca_explained_variance.csv")
+    summary = json.loads(resolve_analysis_file(analysis_dir, "analysis_summary.json").read_text(encoding="utf-8"))
+    pca = pd.read_csv(resolve_analysis_file(analysis_dir, "pca_explained_variance.csv"))
     out = {
         "window_ms": float(window_ms),
         "n_model_rows": int(summary["complete_case_model_rows"]),
@@ -303,13 +322,13 @@ def main() -> None:
     summary_df.to_csv(a.output_dir / "condition_summary.csv", index=False)
 
     ref_paths = condition_paths[float(a.reference_window_ms)]
-    ref_model = read_indexed_csv(ref_paths["analysis"] / "model_ready.csv")
+    ref_model = read_indexed_csv(resolve_analysis_file(ref_paths["analysis"], "model_ready.csv"))
 
     pairwise_rows = []
     all_feature_rows = []
     for window in windows:
         test_paths = condition_paths[window]
-        test_model = read_indexed_csv(test_paths["analysis"] / "model_ready.csv")
+        test_model = read_indexed_csv(resolve_analysis_file(test_paths["analysis"], "model_ready.csv"))
 
         f = feature_agreement(ref_model, test_model)
         if len(f):

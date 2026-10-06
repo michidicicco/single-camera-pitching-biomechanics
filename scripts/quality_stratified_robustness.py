@@ -41,14 +41,6 @@ PREP_SCRIPT = SCRIPT_DIR / "prepare_analysis_data.py"
 DEFAULT_INPUT = PROJECT_ROOT / "outputs" / "features" / "pitch_features_qc_annotated.csv"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "outputs" / "quality_stratified_robustness"
 
-ANALYSIS_FILE_ALIASES = {
-    "analysis_summary.json": ["analysis_summary.json", "cleaned_analysis_summary.json"],
-    "pca_explained_variance.csv": ["pca_explained_variance.csv", "cleaned_pca_explained_variance.csv"],
-    "pca_scores.csv": ["pca_scores.csv", "cleaned_pca_scores.csv"],
-    "cluster_assignments.csv": ["cluster_assignments.csv", "cleaned_cluster_assignments.csv"],
-    "retained_features.csv": ["retained_features.csv", "cleaned_feature_list.csv"],
-}
-
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
@@ -194,17 +186,6 @@ def prepare_stratum(
     return {"subset": subset_csv, "analysis": analysis_dir}
 
 
-def resolve_analysis_file(analysis_dir: Path, logical_name: str) -> Path:
-    candidates = ANALYSIS_FILE_ALIASES.get(logical_name, [logical_name])
-    for name in candidates:
-        path = analysis_dir / name
-        if path.exists():
-            return path
-    raise FileNotFoundError(
-        f"Could not find {logical_name} in {analysis_dir}. Tried: " + ", ".join(candidates)
-    )
-
-
 def indexed(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path)
     if "unique_pitch_id" not in df.columns:
@@ -215,8 +196,8 @@ def indexed(path: Path) -> pd.DataFrame:
 
 
 def pca_similarity(reference_analysis: Path, test_analysis: Path, n_components: int = 5) -> dict:
-    ref = indexed(resolve_analysis_file(reference_analysis, "pca_scores.csv"))
-    tst = indexed(resolve_analysis_file(test_analysis, "pca_scores.csv"))
+    ref = indexed(reference_analysis / "pca_scores.csv")
+    tst = indexed(test_analysis / "pca_scores.csv")
     common = ref.index.intersection(tst.index)
     pcs = [f"PC{i}" for i in range(1, n_components + 1)]
     pcs = [c for c in pcs if c in ref.columns and c in tst.columns]
@@ -237,8 +218,8 @@ def pca_similarity(reference_analysis: Path, test_analysis: Path, n_components: 
 
 
 def cluster_similarity(reference_analysis: Path, test_analysis: Path) -> dict:
-    ref = indexed(resolve_analysis_file(reference_analysis, "cluster_assignments.csv"))
-    tst = indexed(resolve_analysis_file(test_analysis, "cluster_assignments.csv"))
+    ref = indexed(reference_analysis / "cluster_assignments.csv")
+    tst = indexed(test_analysis / "cluster_assignments.csv")
     common = ref.index.intersection(tst.index)
     ari = (
         float(adjusted_rand_score(ref.loc[common, "cluster"], tst.loc[common, "cluster"]))
@@ -249,8 +230,8 @@ def cluster_similarity(reference_analysis: Path, test_analysis: Path) -> dict:
 
 
 def stratum_summary(name: str, analysis_dir: Path) -> dict:
-    summary = json.loads(resolve_analysis_file(analysis_dir, "analysis_summary.json").read_text(encoding="utf-8"))
-    pca = pd.read_csv(resolve_analysis_file(analysis_dir, "pca_explained_variance.csv"))
+    summary = json.loads((analysis_dir / "analysis_summary.json").read_text(encoding="utf-8"))
+    pca = pd.read_csv(analysis_dir / "pca_explained_variance.csv")
     out = {
         "stratum": name,
         "n_model_rows": int(summary["complete_case_model_rows"]),
@@ -264,8 +245,8 @@ def stratum_summary(name: str, analysis_dir: Path) -> dict:
 
 
 def retained_feature_overlap(reference_analysis: Path, test_analysis: Path) -> dict:
-    ref = set(pd.read_csv(resolve_analysis_file(reference_analysis, "retained_features.csv"))["feature"].astype(str))
-    tst = set(pd.read_csv(resolve_analysis_file(test_analysis, "retained_features.csv"))["feature"].astype(str))
+    ref = set(pd.read_csv(reference_analysis / "retained_features.csv")["feature"].astype(str))
+    tst = set(pd.read_csv(test_analysis / "retained_features.csv")["feature"].astype(str))
     inter = ref & tst
     union = ref | tst
     return {

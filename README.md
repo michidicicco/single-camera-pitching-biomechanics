@@ -164,19 +164,6 @@ python scripts/quality_stratified_robustness.py \
 The default high-confidence thresholds are investigator-defined sensitivity criteria, not clinical thresholds. Outputs include sample counts, retained-feature overlap, PCA-space similarity, selected cluster count, silhouette, and ARI relative to the all-analyzable reference.
 
 
-### Local development filename mapping
-
-The public GitHub repository uses stable publication-facing filenames. Older/local thesis working folders may still contain the original development filenames. The current public equivalents are:
-
-| Local thesis filename | Public GitHub filename |
-|---|---|
-| `extract_pitch_features_v7_thesis.py` | `scripts/extract_features.py` |
-| `qc_features_v2_thesis.py` | `scripts/quality_control.py` |
-| `clean_model_inputs_and_rerun_ml_v2_thesis.py` | `scripts/prepare_analysis_data.py` |
-| `preprocessing_robustness.py` | `scripts/preprocessing_robustness.py` |
-| `quality_stratified_robustness.py` | `scripts/quality_stratified_robustness.py` |
-
-The robustness scripts committed to GitHub intentionally call the **public GitHub filenames** above. If running the downloaded robustness scripts inside an older local thesis folder, either rename the local dependencies to the public names or update the three dependency constants at the top of the robustness script to point to the local thesis filenames.
 
 ## Repository Structure
 

@@ -128,6 +128,41 @@ python scripts/merge_analysis_outputs.py \
 
 Secondary analyses are documented in [`scripts/README.md`](scripts/README.md). The public repository does not include the human-participant source videos required to reproduce the study dataset itself.
 
+## Representation-Robustness Analyses
+
+Two additional scripts evaluate how stable the downstream monocular-video representation is to reasonable preprocessing and measurement-quality choices. These analyses are intended as sensitivity tests and do **not** redefine the validated study pipeline.
+
+### Kinematic smoothing sensitivity
+
+`preprocessing_robustness.py` reruns feature extraction from the saved frame-level pose trajectories while varying the kinematic Savitzky-Golay smoothing window. The default comparison uses 50, 100, and 200 ms windows while keeping the validated event-localization settings fixed.
+
+```bash
+python scripts/preprocessing_robustness.py \
+  --pose-dir outputs/pose \
+  --metadata metadata/pitch_metadata.csv \
+  --windows-ms 50 100 200 \
+  --reference-window-ms 200 \
+  --output-dir outputs/preprocessing_robustness
+```
+
+Outputs include per-condition model-selection summaries, feature-level agreement relative to the reference condition, PCA Procrustes disparity, and adjusted Rand index (ARI) between cluster partitions.
+
+### Measurement-quality stratification
+
+`quality_stratified_robustness.py` reruns the primary PCA/K-means workflow in progressively stricter observation subsets:
+
+- all analyzable pitches,
+- measurement-QC pass pitches,
+- a configurable high-confidence subset based on pose-detection rate, landmark visibility, event confidence, missing-gap duration, event-window duration, and FFC fallback use.
+
+```bash
+python scripts/quality_stratified_robustness.py \
+  --input outputs/features/pitch_features_qc_annotated.csv \
+  --output-dir outputs/quality_stratified_robustness
+```
+
+The default high-confidence thresholds are investigator-defined sensitivity criteria, not clinical thresholds. Outputs include sample counts, retained-feature overlap, PCA-space similarity, selected cluster count, silhouette, and ARI relative to the all-analyzable reference.
+
 ## Repository Structure
 
 ```text
@@ -164,6 +199,8 @@ feature_holdout_analysis.py
 pitcher_adjusted_analysis.py
 within_pitcher_clustering.py
 null_bootstrap_analysis.py
+preprocessing_robustness.py
+quality_stratified_robustness.py
 validate_events.py
 run_pipeline.py
 ```

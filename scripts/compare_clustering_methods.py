@@ -35,6 +35,8 @@ def cli():
     p.add_argument("--max-k", type=int, default=6)
     p.add_argument("--seed", type=int, default=13)
     p.add_argument("--balanced-resamples", type=int, default=100)
+    p.add_argument("--frozen-assignments", default=None,
+                   help="Optional local CSV containing unique_pitch_id and cluster for exact frozen-fit verification.")
     p.add_argument("--pitches-per-pitcher", type=int, default=0,
                    help="Default: minimum pitch count across pitchers.")
     return p.parse_args()
@@ -94,6 +96,7 @@ def main():
     out = Path(a.output_dir)
     out.mkdir(parents=True, exist_ok=True)
     X, pitchers, features = check_and_load(a.input, a.features_file)
+    input_df = pd.read_csv(a.input)
     z = StandardScaler().fit_transform(X)
     if a.max_k >= len(z):
         raise ValueError("max-k must be less than the number of pitches")
@@ -115,6 +118,28 @@ def main():
         method: int(g.loc[g.silhouette.idxmax(), "k"])
         for method, g in selection.groupby("method")
     }
+    # Report the final frozen-reference fit separately from the 50-initialization selection runs.
+    # Match the thesis: k=5, seed=13, 100 initializations and 500 iterations.
+    final_km, _, _, _ = kmeans(z, 5, a.seed, n_init=100, max_iter=500)
+    frozen_metrics = metrics(z, final_km)
+    final_vs_ward = {
+        str(k): float(adjusted_rand_score(final_km, baseline[k][1]))
+        for k in [5, 6] if k in baseline
+    }
+    frozen_verification = None
+    if a.frozen_assignments:
+        archived = pd.read_csv(a.frozen_assignments)
+        if "unique_pitch_id" not in input_df or not {"unique_pitch_id", "cluster"}.issubset(archived):
+            raise ValueError("Frozen verification requires unique_pitch_id in both files and cluster in the frozen file")
+        if input_df.unique_pitch_id.isna().any() or not input_df.unique_pitch_id.is_unique or archived.unique_pitch_id.isna().any() or not archived.unique_pitch_id.is_unique:
+            raise ValueError("Frozen verification IDs must be nonmissing and unique")
+        reference = pd.DataFrame({"unique_pitch_id": input_df.unique_pitch_id.astype(str), "new_cluster": final_km})
+        original = archived[["unique_pitch_id", "cluster"]].copy()
+        original["unique_pitch_id"] = original.unique_pitch_id.astype(str)
+        joined = reference.merge(original, on="unique_pitch_id", how="outer", validate="one_to_one", indicator=True)
+        if len(joined) != len(reference) or not joined["_merge"].eq("both").all():
+            raise ValueError("Frozen verification requires precisely matching pitch IDs")
+        frozen_verification = {"matched_pitches": int(len(joined)), "ARI": float(adjusted_rand_score(joined.cluster, joined.new_cluster))}
     agreement = []
     for k in range(a.min_k, a.max_k + 1):
         km, ward = baseline[k]
@@ -182,6 +207,14 @@ def main():
             float(adjusted_rand_score(*baseline[5])) if 5 in baseline else None
         ),
         "selection_kmeans_n_init": 50,
+        "frozen_reference_k": 5,
+        "frozen_reference_kmeans_n_init": 100,
+        "frozen_reference_kmeans_max_iter": 500,
+        "frozen_reference_silhouette": frozen_metrics["silhouette"],
+        "frozen_reference_cluster_sizes": sorted(np.bincount(final_km).tolist()),
+        "frozen_reference_ARI_vs_ward": final_vs_ward,
+        "frozen_file_verification": frozen_verification,
+        "note": "Model selection and robustness use the candidate K-means configuration; frozen-reference comparisons use the final refit.",
         "interpretation": "Exploratory algorithm comparison; not validation of universal pitching types.",
         "privacy": "Aggregate outputs only; no pitch-level or participant-level assignments exported.",
     }

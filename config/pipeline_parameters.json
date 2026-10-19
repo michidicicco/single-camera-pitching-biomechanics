@@ -1,23 +1,24 @@
 {
   "parameter_set": "frozen_after_holdout_event_evaluation",
   "parameters": {
-    "max_interp_gap_ms": 100.0,
-    "savgol_window_ms": 200.0,
-    "event_savgol_window_ms": 100.0,
-    "ffc_event_savgol_window_ms": 50.0,
-    "ffc_lookback_ms": 600.0,
-    "ffc_stability_hold_ms": 50.0,
-    "ffc_precontact_window_ms": 100.0,
+    "max_interp_gap_ms": 100,
+    "savgol_window_ms": 200,
+    "event_savgol_window_ms": 100,
+    "ffc_event_savgol_window_ms": 50,
+    "ffc_lookback_ms": 600,
+    "ffc_stability_hold_ms": 50,
+    "ffc_precontact_window_ms": 100,
     "ffc_ground_tolerance_foot_length": 0.15,
     "release_search_start_frac": 0.45
   },
   "event_validation_reference": {
     "n_pitches": 25,
-    "ffc_mae_frames": 0.80,
-    "ffc_mae_ms": 23.33,
-    "release_mae_frames": 0.72,
-    "release_mae_ms": 24.00,
-    "ffc_to_release_mae_frames": 1.12,
-    "ffc_to_release_mae_ms": 34.00
+    "ffc_mae_frames": 0.6,
+    "ffc_mae_ms": 17.3,
+    "release_mae_frames": 0.44,
+    "release_mae_ms": 14.7,
+    "ffc_to_release_mae_frames": 0.96,
+    "ffc_to_release_mae_ms": 29.3,
+    "provenance": "October 19, 2026 thesis Table V.II holdout results, confirmed by study author; pitch-level source output not independently reprocessed in this documentation correction."
   }
 }

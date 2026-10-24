@@ -158,12 +158,12 @@ def parameter_record(args: argparse.Namespace) -> dict:
         },
         "holdout_validation_reference": {
             "n_pitches": 25,
-            "ffc_mae_frames": 0.80,
-            "ffc_mae_ms": 23.33,
-            "release_mae_frames": 0.72,
-            "release_mae_ms": 24.00,
-            "ffc_to_release_mae_frames": 1.12,
-            "ffc_to_release_mae_ms": 34.00,
+            "ffc_mae_frames": 0.60,
+            "ffc_mae_ms": 17.3,
+            "release_mae_frames": 0.44,
+            "release_mae_ms": 14.7,
+            "ffc_to_release_mae_frames": 0.96,
+            "ffc_to_release_mae_ms": 29.3,
         },
     }
 

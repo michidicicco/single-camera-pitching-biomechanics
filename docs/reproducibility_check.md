@@ -28,3 +28,13 @@ Public-facing names use neutral terminology such as `relative_mechanical_score`,
 ## Data scope
 
 Regression testing used the archived participant-level study outputs locally. Those participant-level files are not included in the public repository.
+
+## Final-thesis result clarification
+
+The final 25-pitch holdout reported FFC MAE 0.60 frames (17.3 ms), release MAE 0.44 frames (14.7 ms), and FFC-to-release duration MAE 0.96 frames (29.3 ms). `results/event_validation_summary.csv` refers to this **final holdout**, not an intermediate development-stage annotation summary.
+
+The K-means candidate selection and frozen refit should not be conflated: silhouette 0.2607199563 came from the 50-initialization candidate-selection fit; the 100-initialization frozen final fit yielded 0.2540620404. Null/bootstrap tests used the candidate-selection configuration at fixed k = 5.
+
+The public `pitcher_adjusted_analysis.py` accepts the public normalized `higher` profile label. Historical local research tables used a longer higher-profile label, and those historical strings are not the clean repository's default interface. Conversion to the public label convention is necessary before using historical inputs with that public script; the published aggregate effect sizes do not imply the historical strings can be passed through unchanged.
+
+The archived Zenodo release is versioned separately; edits to the living GitHub repository do not retroactively alter archived Zenodo bytes.

@@ -88,10 +88,13 @@ def main():
     analysis_vars = [(logical, col) for logical, col in resolved.items()]
 
     if "relative_mechanical_profile" in df.columns:
-        df["_higher_profile_indicator"] = (
-            df["relative_mechanical_profile"].astype(str)
-            == "higher"
+        # Both the clean public label and the archived thesis label indicate
+        # the same higher relative mechanical profile.
+        profiles = df["relative_mechanical_profile"].astype("string").str.strip().str.lower()
+        df["_higher_profile_indicator"] = profiles.isin(
+            {"higher", "higher_watch_relative_mechanical_profile"}
         ).astype(float)
+        df.loc[profiles.isna(), "_higher_profile_indicator"] = np.nan
         analysis_vars.append(("higher_profile_indicator", "_higher_profile_indicator"))
 
     for i, (logical, col) in enumerate(analysis_vars):

@@ -35,6 +35,6 @@ The final 25-pitch holdout reported FFC MAE 0.60 frames (17.3 ms), release MAE 0
 
 The K-means candidate selection and frozen refit should not be conflated: silhouette 0.2607199563 came from the 50-initialization candidate-selection fit; the 100-initialization frozen final fit yielded 0.2540620404. Null/bootstrap tests used the candidate-selection configuration at fixed k = 5.
 
-The public `pitcher_adjusted_analysis.py` accepts the public normalized `higher` profile label. Historical local research tables used a longer higher-profile label, and those historical strings are not the clean repository's default interface. Conversion to the public label convention is necessary before using historical inputs with that public script; the published aggregate effect sizes do not imply the historical strings can be passed through unchanged.
+The public `pitcher_adjusted_analysis.py` accepts both the clean `higher` label and the archived study label `higher_watch_relative_mechanical_profile` as equivalent higher-profile indicators. This compatibility handling does not change the default clean-label analysis or the published aggregate effect sizes.
 
 The archived Zenodo release is versioned separately; edits to the living GitHub repository do not retroactively alter archived Zenodo bytes.

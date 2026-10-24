@@ -16,9 +16,9 @@ This software is intended for research-oriented biomechanical characterization. 
 
 The associated study dataset contained 8 pitchers and 156 pitch observations. Measurement QC classified 122 observations as pass and 34 for review; no observations were excluded from the primary analysis. The primary multivariable matrix retained 32 biomechanical features.
 
-K-means clustering was performed on the 32 standardized retained biomechanical features, not on PCA scores. Candidate values of `k = 2` through `k = 6` were evaluated. The selected solution used `k = 5` with silhouette `0.2607199563`.
+K-means clustering was performed on the 32 standardized retained biomechanical features, not on PCA scores. Candidate values of `k = 2` through `k = 6` were evaluated. Candidate selection favored `k = 5` with silhouette `0.2607199563` (50 initializations). The subsequently frozen primary `k = 5` refit had silhouette `0.2540620404` (100 initializations) and cluster counts of 21, 50, 32, 15, and 38. These are different fitted partitions, not conflicting results.
 
-These values describe the associated study and should not be interpreted as universal population parameters.
+In the final 25-pitch annotation holdout (pitches from already represented athletes), FFC mean absolute error was 0.60 frames (17.3 ms) and release mean absolute error was 0.44 frames (14.7 ms). Across reference frameworks, 81/156 pitches (51.9%) changed relative mechanical bands. Within-pitcher feature normalization favored `k = 2`, silhouette `0.1394`, with ARI `0.0397` versus the frozen primary partition. These values describe the associated study and should not be interpreted as universal population parameters, direct joint loading, or validation on unseen pitchers.
 
 ## Processing Pipeline
 
@@ -55,7 +55,7 @@ Mechanical profiles          Robustness analyses
           Post hoc integration
 ```
 
-The relative mechanical and clustering pathways are generated independently and are merged only after both analyses are complete.
+The relative mechanical scores/profile labels and clustering assignments are generated in separate computational pathways and merged only after both analyses are complete. However, five underlying biomechanical variables are shared between scoring and clustering; post hoc concordance is not independent biomechanical or clinical validation.
 
 ## Quick Start
 
